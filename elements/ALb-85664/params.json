@@ -1,0 +1,137 @@
+{
+    "add_is_visible": true,
+    "category": "visual elements",
+    "default_dim": {
+        "height": 20,
+        "width": 20
+    },
+    "display": "Rarible SDK",
+    "events": {
+        "ALl": {
+            "caption": "Bid Placing Rejected by User",
+            "name": "bid_canceled_by_user"
+        },
+        "ALn": {
+            "caption": "Sell Order Placed",
+            "name": "sell_order_placed"
+        },
+        "ALq": {
+            "caption": "Order Canceled",
+            "name": "order_canceled"
+        },
+        "ALu": {
+            "caption": "Bid Order Placed",
+            "name": "bid_order_placed"
+        },
+        "AMN": {
+            "caption": "NFT Burned",
+            "name": "token_burned"
+        },
+        "AMS": {
+            "caption": "NFT Transfered",
+            "name": "token_transfered"
+        },
+        "AMV": {
+            "caption": "Token Minted",
+            "name": "token_minted"
+        },
+        "AMj": {
+            "caption": "Sell Placing Rejected By User",
+            "name": "sell_canceled_by_user"
+        },
+        "AMk": {
+            "caption": "Error while placing Bid order",
+            "name": "error_while_placing_bid"
+        },
+        "AMl": {
+            "caption": "Error while placing Sell order",
+            "name": "error_while_placing_sell"
+        },
+        "AMm": {
+            "caption": "Minting Rejected By User",
+            "name": "minting_canceled_by_user"
+        },
+        "AMn": {
+            "caption": "Error while Minting",
+            "name": "error_while_placing_minting"
+        },
+        "AMo": {
+            "caption": "Item Bought Successfully",
+            "name": "buy_item_order_placed"
+        },
+        "AMp": {
+            "caption": "Bid Accepted Successfully",
+            "name": "accept_bid_order_placed"
+        },
+        "AMq": {
+            "caption": "Buying Item Rejected By User",
+            "name": "buy_item_canceled_by_user"
+        },
+        "AMr": {
+            "caption": "Accept Bid Rejected By User",
+            "name": "accept_bid_canceled_by_user"
+        },
+        "AMs": {
+            "caption": "Error while Accepting Bid",
+            "name": "error_while_placing_accept_bid"
+        },
+        "AMt": {
+            "caption": "Error while Buying Item",
+            "name": "error_while_placing_buy_item"
+        },
+        "AMu": {
+            "caption": "Cancel Order rejected By User",
+            "name": "order_canceled_canceled_by_user"
+        }
+    },
+    "fields": {
+        "ALc": {
+            "caption": "Environment",
+            "default_val": "rinkeby",
+            "doc": "One of the supported environment: rinkeby, ropsten, mainnet",
+            "editor": "DynamicValue",
+            "name": "env",
+            "rank": 0,
+            "value": "text"
+        }
+    },
+    "icon": "ion-ios-cog",
+    "property_applications": {
+        "resizable": true
+    },
+    "states": {
+        "ALk": {
+            "caption": "Order Stage",
+            "doc": "Approve, Sign, Sell order placed,Bid order placed, Canceled",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "order_stage",
+            "value": "text"
+        },
+        "ALm": {
+            "caption": "Order Hash",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "order_hash",
+            "value": "text"
+        },
+        "AMT": {
+            "caption": "Minted Token Id",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "minted_token_id",
+            "value": "text"
+        },
+        "AMU": {
+            "caption": "Minted Token Item Id",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "minted_token_item_id",
+            "value": "text"
+        }
+    }
+}

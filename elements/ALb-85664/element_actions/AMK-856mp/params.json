@@ -1,0 +1,20 @@
+{
+    "caption": "Burn",
+    "fields": {
+        "AML": {
+            "caption": "NFT Contract",
+            "doc": "",
+            "editor": "DynamicValue",
+            "name": "contractAddress",
+            "rank": 0,
+            "value": "text"
+        },
+        "AMM": {
+            "caption": "Token ID",
+            "editor": "DynamicValue",
+            "name": "tokenId",
+            "rank": 1,
+            "value": "text"
+        }
+    }
+}

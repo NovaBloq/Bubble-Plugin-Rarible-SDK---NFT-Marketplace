@@ -1,0 +1,103 @@
+{
+    "caption": "Mint",
+    "fields": {
+        "AMB": {
+            "caption": "Minting Type",
+            "default_val": "Lazy",
+            "doc": "With Lazy Minting you can defer the gas costs of minting the NFT to the first buyer. The token is minted on the blockchain once someone buys it.",
+            "editor": "Dropdown",
+            "name": "minting_type",
+            "options": "Lazy,Regular",
+            "rank": 0
+        },
+        "AMC": {
+            "caption": "Token Contract",
+            "doc": "Token Contract Address",
+            "editor": "DynamicValue",
+            "name": "token_contract",
+            "rank": 1,
+            "value": "text"
+        },
+        "AME": {
+            "caption": "URI",
+            "editor": "DynamicValue",
+            "name": "uri",
+            "rank": 2,
+            "value": "text"
+        },
+        "AMF": {
+            "caption": "Creator Wallet",
+            "editor": "DynamicValue",
+            "name": "creator_wallet",
+            "rank": 3,
+            "value": "text"
+        },
+        "AMG": {
+            "caption": "------ Royalties ------",
+            "editor": "Label",
+            "name": "------_royalties_------",
+            "rank": 5
+        },
+        "AMX": {
+            "caption": "Supply",
+            "doc": "Only for ERC1155 type",
+            "editor": "DynamicValue",
+            "name": "supply",
+            "optional": true,
+            "rank": 4,
+            "value": "number"
+        },
+        "AMi": {
+            "caption": "Wallet:Amount",
+            "doc": "Each wallet should be followed by a colon an the amount right after it Example 0x9DF3B01aeE76D0eDcC48873667f6F05B4F94A288:0.01",
+            "editor": "DynamicValue",
+            "is_list": true,
+            "name": "royalties_wallet_amount",
+            "optional": true,
+            "rank": 6,
+            "value": "text"
+        },
+        "AQn": {
+            "caption": "Token ID",
+            "doc": "Optional. Used when the token ID is generated separately using the Generate ID action.",
+            "editor": "DynamicValue",
+            "name": "token_id",
+            "optional": true,
+            "rank": 8,
+            "value": "text"
+        },
+        "AQo": {
+            "caption": "Signature V",
+            "doc": "Optional, only when pre-generated token id is used.",
+            "editor": "DynamicValue",
+            "name": "signature_v",
+            "optional": true,
+            "rank": 9,
+            "value": "text"
+        },
+        "AQp": {
+            "caption": "Signature R",
+            "doc": "Optional, only when pre-generated token id is used.",
+            "editor": "DynamicValue",
+            "name": "signature_r",
+            "optional": true,
+            "rank": 10,
+            "value": "text"
+        },
+        "AQq": {
+            "caption": "Signature S",
+            "doc": "Optional, only when pre-generated token id is used.",
+            "editor": "DynamicValue",
+            "name": "signature_s",
+            "optional": true,
+            "rank": 11,
+            "value": "text"
+        },
+        "AQr": {
+            "caption": "---- Pre-Generated token ID ----",
+            "editor": "Label",
+            "name": "token_id_info",
+            "rank": 7
+        }
+    }
+}

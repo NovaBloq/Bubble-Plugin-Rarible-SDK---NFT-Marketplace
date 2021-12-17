@@ -1,0 +1,16 @@
+{
+    "categories": {
+        "0": "payment",
+        "1": "ecommerce",
+        "2": "media",
+        "3": "productivity",
+        "4": "technical"
+    },
+    "demo_page": "https://rarible-demo.bubbleapps.io/version-test/",
+    "description": "Rarible Protocol SDK\nCreate your own NFT Marketplace.\n\n# SDK Features\n- ERC721 and ERC1155 supported\n- Mint\n- Lazy Mint (Buyer pays the fee)\n- Custom Royalties\n- Custom Origin Fees\n- Create Order (Sell, Bid)\n- Buy item\n- Accept Bid\n- Transfer an NFT to other wallet\n- Cancel Order\n- Burn\n\nSupported chains: \n  Ethereum Mainnet, Rinkeby, Ropsten.\n\n# API Features\n- Get Item Metadata\n- Get Item Data\n- Get Orders By Wallet\n- Get Order By Hash\n- Get NFT Ownership\n- Get All NFT Activities (bids, transfers, sales)\n- Get All NFT Items By Owner, Creator, Collection\n\nThe plugin is featured on the official Rarible documentation page:\nhttps://docs.rarible.org/use-cases/bubblesdk/\n\nDemo:\nhttps://rarible-demo.bubbleapps.io/version-test/\n\nDocumentation:\nhttps://rarible.docs.ezcodeplugins.com/\n\nThis plugin is free thanks to Rarible Protocol support.\nhttps://rarible.org/",
+    "image": "//s3.amazonaws.com/appforest_uf/f1632492694372x903552288131963500/Symbol_Black%403x.png",
+    "license": "open_source",
+    "link": "https://forum.bubble.io/t/free-plugin-rarible-sdk-nft-marketplace-by-ezcode/172519",
+    "name": "Rarible SDK - NFT Marketplace",
+    "plugin_instructions": "1. Place the element Rarible SDK on the page\n2. Make sure it is visible (not in a popup or a hidden group)\n3. Select the network in the plugin element field \"Environment\"\n\nReady to go, see examples on how to integrate it in demo pages.\n\nWe are working on documentation and more demo pages.\n\nSee NFT Marketplace (currently in beta) that is being built based on this plugin:\n\nhttps://one2all.io/\n\n------------------------------------------------------------------------------\nYou can buy us a coffee ;) \n0x9DF3B01aeE76D0eDcC48873667f6F05B4F94A288\n\nETH, BSC, Polygon or any other chain\n------------------------------------------------------------------------------"
+}

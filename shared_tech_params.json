@@ -1,0 +1,20 @@
+{
+    "assets": {
+        "ALZ": {
+            "name": "rarisdk",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1632141691294x205704028214926270/bundle12.js"
+        },
+        "AQl": {
+            "name": "bundle_0.10",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1636367450020x183380253523639500/rarible-ethereum-sdk.js"
+        },
+        "AQm": {
+            "name": "web3_ethereum",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1636367648686x370053731923786430/rarible-web3-ethereum.js"
+        }
+    },
+    "dependencies": {
+        "plugin_api_version": 2,
+        "use_jquery": true
+    }
+}

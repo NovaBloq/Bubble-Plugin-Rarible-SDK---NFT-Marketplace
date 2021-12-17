@@ -1,0 +1,35 @@
+{
+    "caption": "Transfer",
+    "fields": {
+        "AMO": {
+            "caption": "NFT Contract",
+            "editor": "DynamicValue",
+            "name": "contract",
+            "rank": 0,
+            "value": "text"
+        },
+        "AMP": {
+            "caption": "Token ID",
+            "editor": "DynamicValue",
+            "name": "tokenId",
+            "rank": 1,
+            "value": "text"
+        },
+        "AMQ": {
+            "caption": "Receiver Address",
+            "editor": "DynamicValue",
+            "name": "receiverAddress",
+            "rank": 2,
+            "value": "text"
+        },
+        "AMR": {
+            "caption": "Amount",
+            "default_val": 1,
+            "doc": "Amount of assets to transfer, used only for ERC1155 assets",
+            "editor": "DynamicValue",
+            "name": "amount",
+            "rank": 3,
+            "value": "number"
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "caption": "Cancel Order",
+    "fields": {
+        "ALp": {
+            "caption": "Hash",
+            "editor": "DynamicValue",
+            "name": "hash",
+            "rank": 0,
+            "value": "text"
+        },
+        "ALr": {
+            "caption": "Order maker",
+            "doc": "Wallet address, usually it is currently connected user.",
+            "editor": "DynamicValue",
+            "name": "order_maker",
+            "rank": 1,
+            "value": "text"
+        }
+    }
+}

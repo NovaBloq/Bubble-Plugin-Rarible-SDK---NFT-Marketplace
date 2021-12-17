@@ -1,0 +1,84 @@
+{
+    "caption": "Create Order",
+    "fields": {
+        "ALf": {
+            "caption": "Order Creator",
+            "doc": "Wallet Address",
+            "editor": "DynamicValue",
+            "name": "ownerAddress",
+            "rank": 1,
+            "value": "text"
+        },
+        "ALg": {
+            "caption": "NFT Contract Address",
+            "editor": "DynamicValue",
+            "name": "contractNFTAddress",
+            "rank": 2,
+            "value": "text"
+        },
+        "ALh": {
+            "caption": "Token ID",
+            "doc": "The NFT Id of the token on which we want to sell",
+            "editor": "DynamicValue",
+            "name": "tokenId",
+            "rank": 3,
+            "value": "text"
+        },
+        "ALi": {
+            "caption": "Sell/Bid With",
+            "default_val": "ETH",
+            "doc": "ETH By default. To use an ERC20 token, insert the ERC20 contract address in this field.",
+            "editor": "DynamicValue",
+            "name": "tradeTokenType",
+            "rank": 4,
+            "value": "text"
+        },
+        "ALj": {
+            "caption": "Price",
+            "doc": "In ETH or ERC20",
+            "editor": "DynamicValue",
+            "name": "price",
+            "rank": 5,
+            "value": "text"
+        },
+        "ALs": {
+            "caption": "Order Type",
+            "default_val": "Sell",
+            "editor": "Dropdown",
+            "name": "order_type",
+            "options": "Sell,Bid",
+            "rank": 0
+        },
+        "AMb": {
+            "caption": "Amount",
+            "default_val": 1,
+            "doc": "More than 1 is acceptable only for ERC1155 tokens",
+            "editor": "DynamicValue",
+            "name": "nftAmount",
+            "rank": 6,
+            "value": "number"
+        },
+        "APB": {
+            "caption": "------ Origin Fees ------",
+            "editor": "Label",
+            "name": "------_origin_fees_------",
+            "rank": 7
+        },
+        "APC": {
+            "caption": "Origin fee is optional and is set for every order. it can be different for two orders involved",
+            "editor": "Label",
+            "name": "fee_info",
+            "rank": 8
+        },
+        "APD": {
+            "caption": "Wallet:Amount",
+            "doc": "Each wallet should be followed by a colon an the amount right after it Example 0x9DF3B01aeE76D0eDcC48873667f6F05B4F94A288:0.01",
+            "editor": "DynamicValue",
+            "is_list": true,
+            "name": "originfees_wallet_amount",
+            "optional": true,
+            "rank": 9,
+            "value": "text"
+        }
+    }
+}

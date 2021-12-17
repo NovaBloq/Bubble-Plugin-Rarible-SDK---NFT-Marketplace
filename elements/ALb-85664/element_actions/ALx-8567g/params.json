@@ -1,0 +1,29 @@
+{
+    "caption": "Fill Order",
+    "fields": {
+        "ALy": {
+            "caption": "Type",
+            "default_val": "Buy",
+            "editor": "Dropdown",
+            "name": "type",
+            "options": "Accept BID,Buy",
+            "rank": 0
+        },
+        "ALz": {
+            "caption": "Order Hash",
+            "editor": "DynamicValue",
+            "name": "hash",
+            "rank": 1,
+            "value": "text"
+        },
+        "AMY": {
+            "caption": "Amount",
+            "default_val": 1,
+            "doc": "Amount of asset to buy/bid, more than 1 is used only for ERC1155 assets",
+            "editor": "DynamicValue",
+            "name": "amount",
+            "rank": 2,
+            "value": "number"
+        }
+    }
+}
