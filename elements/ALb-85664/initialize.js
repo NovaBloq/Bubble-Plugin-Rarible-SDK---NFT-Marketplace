@@ -1,61 +1,207 @@
 function(instance, context) {
+    //# ENV namings for SDK
+    const envSDKtypes = {
+        "Ethereum - Mainnet": 'prod',
+        "Ethereum - Rinkeby": 'staging',
+        "Ethereum - Ropsten": 'dev',
+        "Polygon - Mainnet": 'prod',
+        "Polygon - Mumbai": 'staging',
+        "Tezos - Mainnet": 'prod',
+        "Tezos - Hangzhounet": 'dev',
+        "Flow - Mainent": 'prod',
+        "Flow - Testnet": 'dev'
+    }
+    //# Namings used in API
+    const envAPItypes = {
+        "Ethereum - Mainnet": 'ETHEREUM',
+        "Ethereum - Rinkeby": 'ETHEREUM',
+        "Ethereum - Ropsten": 'ETHEREUM',
+        "Polygon - Mainnet": 'POLYGON',
+        "Polygon - Mumbai": 'POLYGON',
+        "Tezos - Mainnet": 'TEZOS',
+        "Tezos - Hangzhounet": 'TEZOS',
+        "Flow - Mainent": 'FLOW',
+        "Flow - Testnet": 'FLOW'
+    }
 
-    const supportedENV = ['rinkeby', 'mainnet', 'ropsten'];
-    instance.data.env = 'rinkeby';
+    const rpcUrls = {
+        "tezos": {
+            "mainnet": "https://mainnet.api.tez.ie/",
+            "hangzhounet": "https://hangzhounet.api.tez.ie/"
+        },
+        "flow": {
+            "mainnet": { "accessNode": "https://flow-access-mainnet.portto.io", "wallet": "https://flow-wallet.blocto.app/authn" },
+            "devnet": { "accessNode": "https://access-testnet.onflow.org", "wallet": "https://flow-wallet-testnet.blocto.app/authn" }
+        }
+    }
+
+    //# Plugin global variables
+    instance.data.nativeTokens = ["ETH", "XTZ", "MATIC", "FLOW"];
+    instance.data.env = 'rinkeby';//default
     let activeEnv = instance.data.env;
+    let envFullName;
+    instance.data.walletType;
     instance.data.web3;
     instance.data.sdk;
+    instance.data.connectionObj;
+    instance.data.chainId;
+    instance.data.conf;
+    instance.data.blockchainName; //used for API calls example: ETHEREUM, POLYGON, TEZOS, FLOW etc.
+    instance.data.isNativeToken = (token) => instance.data.nativeTokens.includes(token.toUpperCase().trim());
+    instance.data.getUnionItemId = (contractAddress, id) => `${instance.data.blockchainName}:${contractAddress}:${id}`;
 
-    const normalizeEnvName = name => {
-        return name ? name.replace(/ /g, '').toLowerCase() : '';
+    const getAddress = (provider, cb) => {
+        provider.request({ method: 'eth_accounts' }).then(arr => cb(arr[0]));
     }
+    const buildConnObj = (build_provider, cb) => {
+        if (instance.data.blockchainName != 'TEZOS' && instance.data.blockchainName != 'FLOW') {
+            const web3Ethereum = new window.Web3Ethereum({ web3: build_provider });
+            const ethWallet = new window.EthereumWallet(web3Ethereum, instance.data.blockchainName);
+            instance.data.connectionObj = ethWallet;
+        } else if (instance.data.blockchainName == 'TEZOS') {
+            if (!instance.data.tezos_connector) {
+                try {
+                    const tezosConnectorEnv = envFullName.substr(8).toLowerCase();
+                    const appName = instance.data.conf.app_name ? instance.data.conf.app_name : document.title;
+                    if (!window.raribleConnector) {
+                        // Prevent creation of multiple connectors when adding more than 1 plugin element on the page
+                        window.raribleConnector = window.buildBeaconConnector(appName, rpcUrls.tezos[tezosConnectorEnv], tezosConnectorEnv);
+                    }
+                    instance.data.tezos_connector = window.raribleConnector;
+                    window.raribleConnector.connection.subscribe((conn) => {
+                        if (conn.status === "connected") {
+                            instance.data.connectionObj = conn.connection;
+                            instance.data.tezosWalletProvider = instance.data.connectionObj.provider;
+                            instance.publishState('is_tezos_wallet_conencted', true);
+                            instance.triggerEvent('tezos_wallet_connected');
+                            cb();
+                        } else if (conn.status === "disconnected") {
+                            instance.publishState('is_tezos_wallet_conencted', false);
+                            instance.triggerEvent('tezos_wallet_disconnected');
+                        }
+                    });
+                } catch (e) {
+                    console.log('Error: ', e);
+                }
+            }
+        } else if (instance.data.blockchainName == 'FLOW') {
+            // TO DO
+            // return;
+            if (!instance.data.flow_connector) {
+                try {
+                    // const tezosConnectorEnv = envFullName.substr(8).toLowerCase();
+                    const connector = window.buildFlowConnector("https://access-testnet.onflow.org", "https://fcl-discovery.onflow.org/testnet/authn", instance.data.conf.app_name, "https://rarible.com/favicon.png?2d8af2455958e7f0c812");
+                    instance.data.flow_connector = connector;
+                    setTimeout(() => {
 
-    const isEnvSupported = name => supportedENV.includes(name);
+                        connector.connection.subscribe((conn) => {
+                            console.log(conn.status);
+                            if (conn.status === "connected") {
+                                instance.data.connectionObj = conn.connection;
+                                instance.data.flowWalletProvider = instance.data.connectionObj.provider;
+                                instance.publishState('is_tezos_wallet_conencted', true);
+                                instance.triggerEvent('tezos_wallet_connected');
+                                cb();
+                            } else if (conn.status === "disconnected") {
+                                instance.publishState('is_tezos_wallet_conencted', false);
+                            }
+                        });
 
-    const getAddress = (cb) => {
-        ethereum.request({ method: 'eth_accounts' }).then(arr => cb(arr[0]));//first account is selected one
+                        // instance.data.flow_connector.getOptions().then(options => {
+                        //     console.log('OPTIONS: ', options);
+                        //     instance.data.flow_connector.connect(options[0]);
+                        // });
+                    }, 2000);
+
+                } catch (e) {
+                    console.log('Error: ', e);
+                }
+            }
+        }
     }
-
-    const init = () => {
-        instance.data.isWeb3Enabled = (cb) => {
+    const blockchainWallets = {
+        'metamask': (cb) => {
             const isMMinstalled = typeof window.ethereum == 'object';
-
             if (isMMinstalled) {
-                typeof instance.data.web3 === "object" ? '' : instance.data.web3 = new Web3(window.ethereum);//save once
-                getAddress((addr) => {
+                let provider;
+                if (window.ethereum.providers) {
+                    provider = window.ethereum.providers.find((provider) => provider.isMetaMask);
+                } else {
+                    provider = window.ethereum;
+                }
+                instance.data.web3 = new Web3(provider);//save once
+                getAddress(provider, (addr) => {
                     if (typeof addr == "string") {
                         instance.data.selectedAddress = addr;
-                        return cb(true);
+                        const getChainID = (provider) => {
+                            provider.request({ method: 'eth_chainId' }).then((hexId) => {
+                                instance.data.chainId = instance.data.web3.utils.hexToNumber(hexId);
+                                buildConnObj(instance.data.web3);
+                                cb(true);
+                            }).catch(instance.data.errEvent)
+                        };
+                        getChainID(provider);
+                    } else {
+                        cb(false);
                     }
-                    cb(false);
                 })
+            } else { cb(false); }
+        },
+        'walletconnect': (cb) => {
+            if (window.walletConnectInitiatedProvider) {
+                const { accounts, chainId } = window.walletConnectInitiatedProvider;
+                instance.data.selectedAddress = accounts[0];
+                instance.data.chainId = chainId;
+                buildConnObj(new Web3(window.walletConnectInitiatedProvider));
+                cb(true);
             } else {
                 cb(false);
             }
+        },
+        'tezos': (cb) => {
+            setTimeout(() => {
+                buildConnObj(window.tezosProvider, () => {
+                    instance.data.connectionObj.provider.address().then((address) => {
+                        instance.data.selectedAddress = address;
+                        instance.publishState('tezos_-_wallet_address', address);
+                        cb(true);
+                    })
+                });
+            }, 500)
+        },
+        'flow': (cb) => {
+            buildConnObj(null, (address) => {
+                // instance.data.selectedAddress = address;
+                // cb(true);
+            });
         }
+    }
 
+    const init = () => {
         instance.data.initiateSDK = () => {
-            //instance.data.sdk = window.createRaribleSdk(instance.data.web3, instance.data.env);
-            const web3Ethereum = new window.raribleWeb3Ethereum.Web3Ethereum({ web3: instance.data.web3 })
-            instance.data.sdk = new window.raribleEthereumSdk.createRaribleSdk(web3Ethereum, instance.data.env);
+            try {
+                instance.data.sdk = window.createRaribleSdk(instance.data.connectionObj, envSDKtypes[instance.data.env]);
+                window.logSDKConnected(envFullName);
+            } catch (e) {
+                console.warn('SDK failed to initialize. ', e);
+            }
             activeEnv = instance.data.env;
-            console.log(`Rarible SDK initiated on ${activeEnv} network`);
-            if (instance.data.sdk === 'undefined' || instance.data.sdk === null) console.warn('SDK failed to initialize');
         }
 
         instance.data.checkSDKandWeb3 = (cb) => {
             instance.publishState('order_stage', '');//reset state
-            instance.data.isWeb3Enabled((isEnabled) => {
+            blockchainWallets[instance.data.walletType]((isEnabled) => {
                 if (isEnabled && (typeof instance.data.sdk === 'undefined' || activeEnv != instance.data.env)) {
-                    instance.data.initiateSDK()
+                    instance.data.initiateSDK();
                 }
                 return cb(isEnabled);
-            })
+            });
         }
+
         instance.data.error = (e, actionType) => {
             // action types: sell, bid, minting, accept bid, buy item
-            let actionName = actionType.toLowerCase();
-            if (e.code === 4001) {
+            let actionName = actionType && actionType.toLowerCase();
+            if (e.code === 4001 || (e.message && e.message.includes('Unexpected identifier "object"'))) {
                 instance.publishState('order_stage', 'Canceled');
                 actionName && instance.triggerEvent(`${actionName.toLowerCase()}_canceled_by_user`);
             } else {
@@ -64,95 +210,18 @@ function(instance, context) {
                 actionName && instance.triggerEvent(`error_while_placing_${actionName}`);
             }
         }
-
-        instance.data.generatePromise = () => {
-            var result = {
-                resolve: function () { return null; },
-                reject: function () { return null; },
-                promise: function () {
-                    return new Promise(function (resolve, reject) {
-                        result.resolve = resolve;
-                        result.reject = reject;
-                    });
-                },
-            };
-            return result;
-        }
-
-        instance.data.generateSimpleAction = (actionBuilder, stage) => {
-            var promise = instance.data.generatePromise();
-            return {
-                promise: promise,
-                action: actionBuilder.constructor.create(stage),
-            };
-        }
-
-        instance.data.createOrderRequest = (types, conf) => {
-            const { contractNFTAddress, tokenId, orderCreator, price, nftAmount, nftOwner, tradeContractAddress, origin_fees } = conf;
-            originFees = origin_fees ? origin_fees : [];
-            const { orderType, NFTtype, tradeTokenType } = types;
-            const amount = NFTtype == 'ERC721' ? 1 : nftAmount; // For ERC721 always be 1
-            const isSell = orderType == 'Sell';
-            const actionWithNFT = isSell ? 'makeAssetType' : 'takeAssetType';
-            const actionWithTradeToken = isSell ? 'takeAssetType' : 'makeAssetType';
-            let request = {
-                maker: orderCreator,
-                makeAssetType: { assetClass: isSell ? NFTtype : tradeTokenType },
-                takeAssetType: { assetClass: isSell ? tradeTokenType : NFTtype },
-                price,
-                amount,
-                originFees,
-                payouts: [],
-            }
-
-            if (tradeTokenType != 'ETH') {
-                request[actionWithTradeToken].contract = tradeContractAddress;
-                request[actionWithTradeToken].assetClass = 'ERC20';
-            }
-            request[actionWithNFT].contract = contractNFTAddress;
-            request[actionWithNFT].tokenId = tokenId;
-            if (!isSell) request.taker = nftOwner;// taker is needed only when placing a bid
-
-            return request;
-        }
     }
+    let setConfInProgress = false;
     instance.data.setConfig = conf => {
-        if (conf) {
+        if (conf && !setConfInProgress) {
+            instance.data.conf = conf;
+            setConfInProgress = true;
             init();// Init main functions only after the plugin element is loaded to avoid undefined errors in some cases
-            const { env } = conf;
-            const envName = normalizeEnvName(env);
-            if (isEnvSupported(envName)) {
-                instance.data.env = envName;
-                instance.data.checkSDKandWeb3((res) => { });
-            } else {
-                console.warn(`Selected Environment "${env}" is unsuported or the name is incorrect.`);
-            }
+            envFullName = conf.env;
+            instance.data.walletType = conf.wallet_type.toLowerCase();
+            instance.data.env = envFullName;
+            instance.data.blockchainName = envAPItypes[envFullName];
+            instance.data.checkSDKandWeb3((res) => { setConfInProgress = false; });
         }
-    }
-
-
-
-
-    instance.data.runActions = (actionBuilder, order_type) => {
-        let stageNr = 0;
-        const runNextStage = (i) => {
-            const stage = actionBuilder.stages[i];
-            const stageName = stage.id;
-            instance.publishState('order_stage', stageName);
-            const simple = instance.data.generateSimpleAction(actionBuilder, stage);
-            const action = simple.action.build();
-            action.run(0).then()
-            simple.promise.resolve()
-            action.result.then((e) => {
-                if (typeof e !== 'undefined' && i == actionBuilder.stages.length - 1) {
-                    instance.publishState('order_stage', 'Done');
-                    instance.publishState('order_hash', e.hash);
-                    instance.triggerEvent(`${order_type.toLowerCase()}_order_placed`);
-                } else {
-                    runNextStage(++stageNr);
-                }
-            }).catch((e) => { instance.data.error(e, order_type) })
-        }
-        runNextStage(stageNr);
     }
 }

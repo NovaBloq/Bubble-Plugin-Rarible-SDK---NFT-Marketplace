@@ -1,7 +1,27 @@
 function(instance, properties, context) {
-    const { ownerAddress, contractNFTAddress, tokenId, tradeTokenType, price, order_type, nftAmount } = properties;
+    const { contractNFTAddress, tokenId, tradeTokenType, price, order_type, nftAmount } = properties;
     let origin_fees = [];
-    instance.data.checkSDKandWeb3((enabled) => {
+    const itemId = `${instance.data.blockchainName}:${contractNFTAddress}:${tokenId}`;
+    let sellPrice = Number(price);
+
+    const getCurrency = () => {
+        // Set currency type
+        // TO DO: add erc20 equivalent for other chains
+        let obj = {
+            "@type": instance.data.isNativeToken(tradeTokenType) ? tradeTokenType : "ERC20"
+        }
+        if (instance.data.isNativeToken(tradeTokenType)) {
+            obj.blockchain = instance.data.blockchainName;
+        } else {
+            obj.contract = instance.data.blockchainName + ":" + tradeTokenType
+        };
+        // Set sell amount type
+        return obj;
+    }
+
+    let currency = getCurrency();
+
+    const prepareOrder = enabled => {
         if (enabled) {
             const setFees = (type, cb) => {
                 //Will be used for payouts array as well
@@ -13,10 +33,10 @@ function(instance, properties, context) {
                     // const amounts_list = AllAmounts.get(0, am_leng);
                     for (let i = 0; i < wl_leng; i++) {
                         const wallet_amount = wallets_list[i].split(':');// wallet:amount
-                        const account = wallet_amount[0]; // [wallet,amount]
-                        const value = parseFloat(wallet_amount[1]) * 100
+                        const account = `${instance.data.blockchainName}:${wallet_amount[0]}`; // [wallet,amount]
+                        const value = parseFloat(wallet_amount[1]) * 100;
                         let object = { account, value };
-                        if (type == "originfees") origin_fees.push(object);
+                        if (type == "originfees" && value > 0) origin_fees.push(object);
                         if (i == wl_leng - 1) cb();
                     }
                 } else {
@@ -24,38 +44,34 @@ function(instance, properties, context) {
                 }
             }
             setFees('originfees', () => {
-                const priceInWei = instance.data.web3.utils.toWei(`${price}`);
                 instance.publishState('order_stage', 'Preparing request');
                 const sdkActionType = order_type.toLowerCase();//Sell or Bid
-                instance.data.sdk.apis.nftCollection.getNftCollectionById({ collection: contractNFTAddress }).then((nftCollection) => {
-                    const types = {
-                        NFTtype: nftCollection.type,
-                        orderType: order_type,
-                        tradeTokenType
+                instance.data.sdk.order[sdkActionType]({ itemId }).then((order) => {
+                    let submitObj = {
+                        amount: nftAmount, // amount of NFTs to put on sale: must be <= maxAmount
+                        price: sellPrice, // price of the NFT being sold (0.2 for example if price is 0.2 ETH)
+                        currency // curreny (ETH or specific ERC20 or Tez, Flow etc)
                     }
-                    const conf = {
-                        tradeContractAddress: tradeTokenType,
-                        orderCreator: ownerAddress,
-                        contractNFTAddress,
-                        tokenId,
-                        price: priceInWei,
-                        nftOwner: nftCollection.owner,
-                        nftAmount,
-                        origin_fees
+                    if (sdkActionType == 'sell') {
+                        submitObj.originFees = origin_fees // optional array of origin fees (TODO add link to origin fees explanation)
                     }
-                    const request = instance.data.createOrderRequest(types, conf);
-                    //instance.data.sdk.order[sdkActionType](request).then(actionBuilder => { instance.data.runActions(actionBuilder, order_type) });
-                    instance.data.sdk.order[sdkActionType](request).then((e) => {
+                    order.submit(submitObj).then((res) => {
                         instance.publishState('order_stage', 'Done');
-                        instance.publishState('order_hash', e.hash);
+                        instance.publishState('order_hash', res.split(':')[1]);
                         instance.triggerEvent(`${order_type.toLowerCase()}_order_placed`);
-                    }).catch(e => {
-                        instance.data.error(e, order_type);
                     })
-
-                })
+                }).catch(e => {
+                    instance.data.error(e, order_type);
+                });
             })
         }
-    })
+    }
 
+    if (instance.data.blockchainName == "ETHEREUM") {
+        instance.data.checkSDKandWeb3((enabled) => {
+            prepareOrder(enabled);
+        });
+    } else {
+        prepareOrder(true);
+    }
 }

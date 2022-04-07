@@ -1,5 +1,6 @@
 {
     "caption": "Cancel Order",
+    "doc": "",
     "fields": {
         "ALp": {
             "caption": "Hash",

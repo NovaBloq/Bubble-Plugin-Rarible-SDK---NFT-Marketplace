@@ -82,16 +82,52 @@
         "AMu": {
             "caption": "Cancel Order rejected By User",
             "name": "order_canceled_canceled_by_user"
+        },
+        "AUt": {
+            "caption": "Tezos Wallet Connected",
+            "name": "tezos_wallet_connected"
+        },
+        "AUx": {
+            "caption": "Tezos Wallet Disconnected",
+            "name": "tezos_wallet_disconnected"
         }
     },
     "fields": {
-        "ALc": {
+        "ATp": {
+            "caption": "Wallet Type",
+            "default_val": "MetaMask",
+            "doc": "The wallet that was used to connect to your app",
+            "editor": "Dropdown",
+            "name": "wallet_type",
+            "options": "MetaMask,WalletConnect,Tezos,Flow",
+            "rank": 1
+        },
+        "AUn": {
             "caption": "Environment",
-            "default_val": "rinkeby",
-            "doc": "One of the supported environment: rinkeby, ropsten, mainnet",
-            "editor": "DynamicValue",
+            "default_val": "Ethereum - Rinkeby",
+            "editor": "Dropdown",
             "name": "env",
-            "rank": 0,
+            "options": "Ethereum - Mainnet,Ethereum - Rinkeby,Ethereum - Ropsten,Polygon - Mainnet,Polygon - Mumbai,Tezos - Mainnet,Tezos - Hangzhounet,Flow - Mainent,Flow - Testnet",
+            "rank": 0
+        },
+        "AUp": {
+            "caption": "---- Tezos Settings ----",
+            "editor": "Label",
+            "name": "tezons_info",
+            "rank": 2
+        },
+        "AUq": {
+            "caption": "The field below is required when using Tezos network.",
+            "editor": "Label",
+            "name": "info2",
+            "rank": 3
+        },
+        "AUr": {
+            "caption": "App Name",
+            "editor": "DynamicValue",
+            "name": "app_name",
+            "optional": true,
+            "rank": 4,
             "value": "text"
         }
     },
@@ -131,6 +167,30 @@
                 "fn": "function(properties, context) {\n\n\n\n}"
             },
             "name": "minted_token_item_id",
+            "value": "text"
+        },
+        "AUk": {
+            "caption": "NFT transfer TX Hash",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "nft_transfer_tx_id",
+            "value": "text"
+        },
+        "AUs": {
+            "caption": "Is Tezos Wallet Conencted",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "is_tezos_wallet_conencted",
+            "value": "boolean"
+        },
+        "AUw": {
+            "caption": "Tezos - Wallet Address",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "tezos_-_wallet_address",
             "value": "text"
         }
     }

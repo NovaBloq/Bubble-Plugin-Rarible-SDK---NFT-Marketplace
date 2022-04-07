@@ -1,5 +1,6 @@
 {
     "caption": "Transfer",
+    "doc": "",
     "fields": {
         "AMO": {
             "caption": "NFT Contract",

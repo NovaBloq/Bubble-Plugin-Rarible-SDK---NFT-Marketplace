@@ -1,5 +1,6 @@
 {
     "caption": "Mint",
+    "doc": "",
     "fields": {
         "AMB": {
             "caption": "Minting Type",
@@ -25,26 +26,20 @@
             "rank": 2,
             "value": "text"
         },
-        "AMF": {
-            "caption": "Creator Wallet",
-            "editor": "DynamicValue",
-            "name": "creator_wallet",
-            "rank": 3,
-            "value": "text"
-        },
         "AMG": {
             "caption": "------ Royalties ------",
             "editor": "Label",
             "name": "------_royalties_------",
-            "rank": 5
+            "rank": 4
         },
         "AMX": {
             "caption": "Supply",
-            "doc": "Only for ERC1155 type",
+            "default_val": 1,
+            "doc": "More than 1 is only for ERC1155 type",
             "editor": "DynamicValue",
             "name": "supply",
             "optional": true,
-            "rank": 4,
+            "rank": 3,
             "value": "number"
         },
         "AMi": {
@@ -54,7 +49,7 @@
             "is_list": true,
             "name": "royalties_wallet_amount",
             "optional": true,
-            "rank": 6,
+            "rank": 5,
             "value": "text"
         },
         "AQn": {
@@ -63,7 +58,7 @@
             "editor": "DynamicValue",
             "name": "token_id",
             "optional": true,
-            "rank": 8,
+            "rank": 7,
             "value": "text"
         },
         "AQo": {
@@ -72,8 +67,8 @@
             "editor": "DynamicValue",
             "name": "signature_v",
             "optional": true,
-            "rank": 9,
-            "value": "text"
+            "rank": 8,
+            "value": "number"
         },
         "AQp": {
             "caption": "Signature R",
@@ -81,7 +76,7 @@
             "editor": "DynamicValue",
             "name": "signature_r",
             "optional": true,
-            "rank": 10,
+            "rank": 9,
             "value": "text"
         },
         "AQq": {
@@ -90,14 +85,14 @@
             "editor": "DynamicValue",
             "name": "signature_s",
             "optional": true,
-            "rank": 11,
+            "rank": 10,
             "value": "text"
         },
         "AQr": {
             "caption": "---- Pre-Generated token ID ----",
             "editor": "Label",
             "name": "token_id_info",
-            "rank": 7
+            "rank": 6
         }
     }
 }

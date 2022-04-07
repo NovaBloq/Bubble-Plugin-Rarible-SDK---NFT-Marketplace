@@ -1,16 +1,20 @@
 {
     "assets": {
-        "ALZ": {
-            "name": "rarisdk",
-            "url": "//dd7tel2830j4w.cloudfront.net/f1632141691294x205704028214926270/bundle12.js"
+        "AUi": {
+            "name": "wallets_0.8.47",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1648656074500x274433002308072100/wallets_0.8.47.js"
         },
-        "AQl": {
-            "name": "bundle_0.10",
-            "url": "//dd7tel2830j4w.cloudfront.net/f1636367450020x183380253523639500/rarible-ethereum-sdk.js"
+        "AUj": {
+            "name": "sdk_0.8.47",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1648656108784x170106895485218940/sdk_0.8.47.js"
         },
-        "AQm": {
-            "name": "web3_ethereum",
-            "url": "//dd7tel2830j4w.cloudfront.net/f1636367648686x370053731923786430/rarible-web3-ethereum.js"
+        "AUu": {
+            "name": "jssdk_0.8.47_2",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1648818527279x202224751355827520/wallets_0.8.47_2.js"
+        },
+        "AUy": {
+            "name": "sdk_0.8.47_3",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1649247302607x573149965343528600/wallets_0.8.47_3.js"
         }
     },
     "dependencies": {
