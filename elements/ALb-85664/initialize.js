@@ -23,7 +23,6 @@ function(instance, context) {
         "Flow - Mainent": 'FLOW',
         "Flow - Testnet": 'FLOW'
     }
-
     const rpcUrls = {
         "tezos": {
             "mainnet": "https://mainnet.api.tez.ie/",
@@ -66,7 +65,7 @@ function(instance, context) {
                     if (!window.raribleConnector) {
                         // Prevent creation of multiple connectors when adding more than 1 plugin element on the page
                         window.raribleConnector = window.buildBeaconConnector(appName, rpcUrls.tezos[tezosConnectorEnv], tezosConnectorEnv);
-                    }
+                    } // Plugin by NovaBloq (developer - Andrew)
                     instance.data.tezos_connector = window.raribleConnector;
                     window.raribleConnector.connection.subscribe((conn) => {
                         if (conn.status === "connected") {
@@ -109,6 +108,7 @@ function(instance, context) {
 
                         // instance.data.flow_connector.getOptions().then(options => {
                         //     console.log('OPTIONS: ', options);
+                        //     Plugin by EazyCode (developer - Andrew)
                         //     instance.data.flow_connector.connect(options[0]);
                         // });
                     }, 2000);
@@ -209,6 +209,7 @@ function(instance, context) {
                 instance.publishState('order_stage', 'Error');
                 actionName && instance.triggerEvent(`error_while_placing_${actionName}`);
             }
+            // Plugin by novabloq.com (dev: A.A.A.)
         }
     }
     let setConfInProgress = false;
