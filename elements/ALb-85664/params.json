@@ -90,6 +90,22 @@
         "AUx": {
             "caption": "Tezos Wallet Disconnected",
             "name": "tezos_wallet_disconnected"
+        },
+        "AVF": {
+            "caption": "Collection Created",
+            "name": "collection_created"
+        },
+        "AVM": {
+            "caption": "Error while creating Collection",
+            "name": "error_while_creating_collection"
+        },
+        "AVO": {
+            "caption": "Error while Transferring NFT",
+            "name": "error_while_placing_transferring"
+        },
+        "AVP": {
+            "caption": "Transferring Canceled by User",
+            "name": "transferring_canceled_by_user"
         }
     },
     "fields": {
@@ -99,7 +115,7 @@
             "doc": "The wallet that was used to connect to your app",
             "editor": "Dropdown",
             "name": "wallet_type",
-            "options": "MetaMask,WalletConnect,Tezos,Flow",
+            "options": "MetaMask,WalletConnect,Tezos,Flow,Web3Auth",
             "rank": 1
         },
         "AUn": {
@@ -129,6 +145,42 @@
             "optional": true,
             "rank": 4,
             "value": "text"
+        },
+        "AVV": {
+            "caption": "## About plugin ##",
+            "editor": "Label",
+            "name": "info",
+            "rank": 5
+        },
+        "AVW": {
+            "caption": "Built in collaboration with Rarible team",
+            "editor": "Label",
+            "name": "info2",
+            "rank": 6
+        },
+        "AVX": {
+            "caption": "Link to official Rarible documentation:",
+            "editor": "Label",
+            "name": "info3",
+            "rank": 7
+        },
+        "AVY": {
+            "caption": "https://docs.rarible.org/use-cases/bubblesdk/",
+            "editor": "Label",
+            "name": "info4",
+            "rank": 8
+        },
+        "AVb": {
+            "caption": "####",
+            "editor": "Label",
+            "name": "info6",
+            "rank": 10
+        },
+        "AVc": {
+            "caption": "By NovaBloq.com",
+            "editor": "Label",
+            "name": "info5",
+            "rank": 9
         }
     },
     "icon": "ion-ios-cog",
@@ -191,6 +243,31 @@
                 "fn": "function(properties, context) {\n\n\n\n}"
             },
             "name": "tezos_-_wallet_address",
+            "value": "text"
+        },
+        "AVE": {
+            "caption": "Created Collection Address",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "created_collection_address",
+            "value": "text"
+        },
+        "AVN": {
+            "caption": "Created Collection TX",
+            "doc": "Only for regular minting",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "created_collection_tx",
+            "value": "text"
+        },
+        "AVg": {
+            "caption": "Minted TX Hash",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "minted_tx_hash",
             "value": "text"
         }
     }

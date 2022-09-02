@@ -1,6 +1,11 @@
 function(instance, context) {
+    //####
+    //@ Free Plugin by NovaBloq in partnership with Rarible Protocol
+    //@ It can be found in the Rarible official documentation: https://docs.rarible.org/use-cases/bubblesdk/
+    //####
+
     //# ENV namings for SDK
-    const envSDKtypes = {
+    instance.data.envSDKtypes = {
         "Ethereum - Mainnet": 'prod',
         "Ethereum - Rinkeby": 'staging',
         "Ethereum - Ropsten": 'dev',
@@ -23,6 +28,15 @@ function(instance, context) {
         "Flow - Mainent": 'FLOW',
         "Flow - Testnet": 'FLOW'
     }
+
+    const chainIds = {
+        "1": "Ethereum - Mainnet",
+        "4": "Ethereum - Rinkeby",
+        "3": "Ethereum - Ropsten",
+        "137": "Polygon - Mainnet",
+        "80001": "Polygon - Mumbai"
+    }
+
     const rpcUrls = {
         "tezos": {
             "mainnet": "https://mainnet.api.tez.ie/",
@@ -65,7 +79,7 @@ function(instance, context) {
                     if (!window.raribleConnector) {
                         // Prevent creation of multiple connectors when adding more than 1 plugin element on the page
                         window.raribleConnector = window.buildBeaconConnector(appName, rpcUrls.tezos[tezosConnectorEnv], tezosConnectorEnv);
-                    } // Plugin by NovaBloq (developer - Andrew)
+                    } //@ Plugin by NovaBloq (developer - Andrew)
                     instance.data.tezos_connector = window.raribleConnector;
                     window.raribleConnector.connection.subscribe((conn) => {
                         if (conn.status === "connected") {
@@ -85,16 +99,13 @@ function(instance, context) {
             }
         } else if (instance.data.blockchainName == 'FLOW') {
             // TO DO
-            // return;
             if (!instance.data.flow_connector) {
                 try {
                     // const tezosConnectorEnv = envFullName.substr(8).toLowerCase();
                     const connector = window.buildFlowConnector("https://access-testnet.onflow.org", "https://fcl-discovery.onflow.org/testnet/authn", instance.data.conf.app_name, "https://rarible.com/favicon.png?2d8af2455958e7f0c812");
                     instance.data.flow_connector = connector;
                     setTimeout(() => {
-
                         connector.connection.subscribe((conn) => {
-                            console.log(conn.status);
                             if (conn.status === "connected") {
                                 instance.data.connectionObj = conn.connection;
                                 instance.data.flowWalletProvider = instance.data.connectionObj.provider;
@@ -105,12 +116,6 @@ function(instance, context) {
                                 instance.publishState('is_tezos_wallet_conencted', false);
                             }
                         });
-
-                        // instance.data.flow_connector.getOptions().then(options => {
-                        //     console.log('OPTIONS: ', options);
-                        //     Plugin by EazyCode (developer - Andrew)
-                        //     instance.data.flow_connector.connect(options[0]);
-                        // });
                     }, 2000);
 
                 } catch (e) {
@@ -174,13 +179,21 @@ function(instance, context) {
                 // instance.data.selectedAddress = address;
                 // cb(true);
             });
+        },
+        'web3auth': (cb) => {
+            const { address, chainId } = instance.data.web3Auth.data;
+            instance.data.selectedAddress = address;
+            instance.data.chainId = chainId;
+            buildConnObj(new Web3(instance.data.web3Auth.provider));
+            cb(true);
         }
     }
 
     const init = () => {
         instance.data.initiateSDK = () => {
             try {
-                instance.data.sdk = window.createRaribleSdk(instance.data.connectionObj, envSDKtypes[instance.data.env]);
+                const useENV = instance.data.envSDKtypes[instance.data.env] != "prod" ? "testnet" : instance.data.envSDKtypes[instance.data.env];
+                instance.data.sdk = window.createRaribleSdk(instance.data.connectionObj, useENV);
                 window.logSDKConnected(envFullName);
             } catch (e) {
                 console.warn('SDK failed to initialize. ', e);
@@ -209,20 +222,32 @@ function(instance, context) {
                 instance.publishState('order_stage', 'Error');
                 actionName && instance.triggerEvent(`error_while_placing_${actionName}`);
             }
-            // Plugin by novabloq.com (dev: A.A.A.)
+            // Plugin by novabloq.com
         }
     }
     let setConfInProgress = false;
+
+    window.initRarible = (provider, data) => {
+        instance.data.web3Auth = { provider, data };
+        if (chainIds[`${data.chainId}`] != instance.data.env) {
+            instance.data.env = chainIds[`${data.chainId}`];
+            envFullName = instance.data.env;
+            instance.data.blockchainName = envAPItypes[envFullName];
+        }
+        init();
+        instance.data.checkSDKandWeb3((res) => { setConfInProgress = false; })
+    }
+
     instance.data.setConfig = conf => {
         if (conf && !setConfInProgress) {
             instance.data.conf = conf;
             setConfInProgress = true;
-            init();// Init main functions only after the plugin element is loaded to avoid undefined errors in some cases
-            envFullName = conf.env;
             instance.data.walletType = conf.wallet_type.toLowerCase();
+            if (instance.data.walletType != "web3auth") init();// Init main functions only after the plugin element is loaded to avoid undefined errors in some cases
+            envFullName = conf.env;
             instance.data.env = envFullName;
             instance.data.blockchainName = envAPItypes[envFullName];
-            instance.data.checkSDKandWeb3((res) => { setConfInProgress = false; });
+            if (instance.data.walletType != "web3auth") instance.data.checkSDKandWeb3((res) => { setConfInProgress = false; });
         }
     }
 }

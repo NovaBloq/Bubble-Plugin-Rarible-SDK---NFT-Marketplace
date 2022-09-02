@@ -1,6 +1,6 @@
 function(instance, properties, context) {
     instance.publishState('order_stage', ''); //reset state
-    const { token_contract, uri, minting_type, supply, token_id, signature_v, signature_r, signature_s } = properties;
+    const { token_contract, uri, minting_type, supply, token_id } = properties;
     const contract = `${instance.data.blockchainName}:${token_contract}`;
     let minter = '';
     let submitObj = {
@@ -19,11 +19,6 @@ function(instance, properties, context) {
             if (token_id) {// Pre-generated ID
                 mintObj.tokenId = {
                     "tokenId": token_id,
-                    "signature": {
-                        "v": signature_v,
-                        "r": signature_r,
-                        "s": signature_s
-                    }
                 }
             }
             instance.data.sdk.nft.mint(mintObj)
@@ -35,8 +30,8 @@ function(instance, properties, context) {
                             submitObj.lazyMint = false;//collection doesn't support lazy minting
                         }
                     }
-                    console.log(submitObj);
                     mintAction.submit(submitObj).then((res) => {
+                        instance.publishState('minted_tx_hash', res.transaction.transaction.hash);
                         const item = res.itemId.split(':');
                         instance.publishState('minted_token_id', item[2]);
                         instance.publishState('minted_token_item_id', item[1] + ":" + item[2]);

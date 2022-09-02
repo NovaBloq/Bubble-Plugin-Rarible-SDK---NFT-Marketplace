@@ -1,0 +1,39 @@
+{
+    "caption": "Create Collection",
+    "fields": {
+        "AVH": {
+            "caption": "Asset Type",
+            "default_val": "ERC721",
+            "doc": "ERC721 or ERC1155 for ETHEREUM, NFT or MT for TEZOS",
+            "editor": "DynamicValue",
+            "name": "assetType",
+            "rank": 0,
+            "value": "text"
+        },
+        "AVI": {
+            "caption": "Name",
+            "doc": "Name of the collection",
+            "editor": "DynamicValue",
+            "name": "name",
+            "rank": 1,
+            "value": "text"
+        },
+        "AVJ": {
+            "caption": "Symbol",
+            "doc": "Symbol of the collection: Short abbreviation like: ART, NVB",
+            "editor": "DynamicValue",
+            "name": "symbol",
+            "rank": 2,
+            "value": "text"
+        },
+        "AVL": {
+            "caption": "Is private",
+            "default_val": false,
+            "doc": "Private (true) or public (false) collection",
+            "editor": "DynamicValue",
+            "name": "isUserToken",
+            "rank": 3,
+            "value": "boolean"
+        }
+    }
+}

@@ -4,17 +4,21 @@
             "name": "wallets_0.8.47",
             "url": "//dd7tel2830j4w.cloudfront.net/f1648656074500x274433002308072100/wallets_0.8.47.js"
         },
-        "AUj": {
-            "name": "sdk_0.8.47",
-            "url": "//dd7tel2830j4w.cloudfront.net/f1648656108784x170106895485218940/sdk_0.8.47.js"
+        "AVQ": {
+            "name": "sdk_0.9.5",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1653476452529x389673239606089800/sdk_0.9.5.js"
         },
-        "AUu": {
-            "name": "jssdk_0.8.47_2",
-            "url": "//dd7tel2830j4w.cloudfront.net/f1648818527279x202224751355827520/wallets_0.8.47_2.js"
+        "AVT": {
+            "name": "wallets_0.9.4",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1653479575121x374615277691575230/wallets_0.9.4.js"
         },
-        "AUy": {
-            "name": "sdk_0.8.47_3",
-            "url": "//dd7tel2830j4w.cloudfront.net/f1649247302607x573149965343528600/wallets_0.8.47_3.js"
+        "AVU": {
+            "name": "sdk_0.9.6",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1655289786634x884864742450262900/sdk_0.9.6.js"
+        },
+        "AVe": {
+            "name": "sdk_0.9.11",
+            "url": "//dd7tel2830j4w.cloudfront.net/f1658155441316x110728442118455570/sdk_0.9.11.js"
         }
     },
     "dependencies": {
