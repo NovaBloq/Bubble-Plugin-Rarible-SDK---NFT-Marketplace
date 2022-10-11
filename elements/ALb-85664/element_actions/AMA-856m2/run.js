@@ -31,11 +31,11 @@ function(instance, properties, context) {
                         }
                     }
                     mintAction.submit(submitObj).then((res) => {
-                        instance.publishState('minted_tx_hash', res.transaction.transaction.hash);
                         const item = res.itemId.split(':');
                         instance.publishState('minted_token_id', item[2]);
                         instance.publishState('minted_token_item_id', item[1] + ":" + item[2]);
                         instance.triggerEvent('token_minted');
+                        try { instance.publishState('minted_tx_hash', res.transaction.transaction.hash); } catch (e) { }
                     }).catch((e) => {
                         console.log('error: ', e);
                         instance.data.error(e, 'minting');

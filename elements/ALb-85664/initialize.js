@@ -190,6 +190,9 @@ function(instance, context) {
     }
 
     const init = () => {
+        // Init main functions only after the plugin element is fully loaded and the sdk is ready to be used
+        // to avoid undefined errors in some cases
+
         instance.data.initiateSDK = () => {
             try {
                 const useENV = instance.data.envSDKtypes[instance.data.env] != "prod" ? "testnet" : instance.data.envSDKtypes[instance.data.env];
@@ -225,7 +228,7 @@ function(instance, context) {
             // Plugin by novabloq.com
         }
     }
-    let setConfInProgress = false;
+    let setConfInProgress = false; //prevent multiple calls with same settings
 
     window.initRarible = (provider, data) => {
         instance.data.web3Auth = { provider, data };
@@ -243,11 +246,16 @@ function(instance, context) {
             instance.data.conf = conf;
             setConfInProgress = true;
             instance.data.walletType = conf.wallet_type.toLowerCase();
-            if (instance.data.walletType != "web3auth") init();// Init main functions only after the plugin element is loaded to avoid undefined errors in some cases
+
+            if (instance.data.walletType != "web3auth") init();
+
+
             envFullName = conf.env;
             instance.data.env = envFullName;
             instance.data.blockchainName = envAPItypes[envFullName];
+
             if (instance.data.walletType != "web3auth") instance.data.checkSDKandWeb3((res) => { setConfInProgress = false; });
+            else setConfInProgress = false;
         }
     }
 }

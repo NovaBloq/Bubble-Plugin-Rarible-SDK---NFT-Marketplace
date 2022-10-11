@@ -120,10 +120,10 @@
         },
         "AUn": {
             "caption": "Environment",
-            "default_val": "Ethereum - Rinkeby",
+            "default_val": "Polygon - Mumbai",
             "editor": "Dropdown",
             "name": "env",
-            "options": "Ethereum - Mainnet,Ethereum - Rinkeby,Ethereum - Ropsten,Polygon - Mainnet,Polygon - Mumbai,Tezos - Mainnet,Tezos - Hangzhounet,Flow - Mainent,Flow - Testnet",
+            "options": "Ethereum - Mainnet,Ethereum - Ropsten,Polygon - Mainnet,Polygon - Mumbai,Tezos - Mainnet,Tezos - Hangzhounet,Flow - Mainent,Flow - Testnet",
             "rank": 0
         },
         "AUp": {

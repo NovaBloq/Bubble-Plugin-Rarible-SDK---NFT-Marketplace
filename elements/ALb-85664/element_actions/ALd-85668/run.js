@@ -59,7 +59,9 @@ function(instance, properties, context) {
                         instance.publishState('order_stage', 'Done');
                         instance.publishState('order_hash', res.split(':')[1]);
                         instance.triggerEvent(`${order_type.toLowerCase()}_order_placed`);
-                    })
+                    }).catch(e => {
+                    	instance.data.error(e, order_type);
+                	});
                 }).catch(e => {
                     instance.data.error(e, order_type);
                 });
