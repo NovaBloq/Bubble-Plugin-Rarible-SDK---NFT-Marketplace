@@ -7,7 +7,7 @@ function(instance, context) {
     //# ENV namings for SDK
     instance.data.envSDKtypes = {
         "Ethereum - Mainnet": 'prod',
-        "Ethereum - Rinkeby": 'staging',
+        "Ethereum - Goerli": 'staging',
         "Ethereum - Ropsten": 'dev',
         "Polygon - Mainnet": 'prod',
         "Polygon - Mumbai": 'staging',
@@ -19,7 +19,7 @@ function(instance, context) {
     //# Namings used in API
     const envAPItypes = {
         "Ethereum - Mainnet": 'ETHEREUM',
-        "Ethereum - Rinkeby": 'ETHEREUM',
+        "Ethereum - Goerli": 'ETHEREUM',
         "Ethereum - Ropsten": 'ETHEREUM',
         "Polygon - Mainnet": 'POLYGON',
         "Polygon - Mumbai": 'POLYGON',
@@ -31,7 +31,7 @@ function(instance, context) {
 
     const chainIds = {
         "1": "Ethereum - Mainnet",
-        "4": "Ethereum - Rinkeby",
+        "5": "Ethereum - Goerli",
         "3": "Ethereum - Ropsten",
         "137": "Polygon - Mainnet",
         "80001": "Polygon - Mumbai"
