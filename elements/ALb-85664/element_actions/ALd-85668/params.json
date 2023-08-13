@@ -72,6 +72,15 @@
             "optional": true,
             "rank": 8,
             "value": "text"
+        },
+        "AVl": {
+            "caption": "Expiration Date",
+            "doc": "Date the order will expire, must be greater than current datetime.  If empty, default is 7 days.",
+            "editor": "DynamicValue",
+            "name": "expiration_date",
+            "optional": true,
+            "rank": 9,
+            "value": "date"
         }
     }
 }

@@ -3,7 +3,7 @@ function(instance, properties, context) {
     const prepareFillOrder = enabled => {
         if (!enabled) return;
         const fillType = type == "Buy" ? "buy_item" : "accept_bid";
-        instance.publishState('order_stage', 'Preparing request');
+        instance.publishState('order_stage', 'Prepping request...');
         const fillRequest = {
             orderId: instance.data.blockchainName + ":" + hash
         };

@@ -112,7 +112,7 @@
         "ATp": {
             "caption": "Wallet Type",
             "default_val": "MetaMask",
-            "doc": "The wallet that was used to connect to your app",
+            "doc": "The wallet that was used to connect to your app. It must be one of our plugins like Web3&MetaMask, WalletConnect or others that you see in dropdown.",
             "editor": "Dropdown",
             "name": "wallet_type",
             "options": "MetaMask,WalletConnect,Tezos,Flow,Web3Auth",
@@ -147,7 +147,7 @@
             "value": "text"
         },
         "AVV": {
-            "caption": "## About plugin ##",
+            "caption": "### About plugin ###",
             "editor": "Label",
             "name": "info",
             "rank": 5

@@ -3,7 +3,7 @@ function(instance, properties, context) {
     let origin_fees = [];
     const itemId = `${instance.data.blockchainName}:${contractNFTAddress}:${tokenId}`;
     let sellPrice = Number(price);
-
+    
     const getCurrency = () => {
         // Set currency type
         // TO DO: add erc20 equivalent for other chains
@@ -44,16 +44,28 @@ function(instance, properties, context) {
                 }
             }
             setFees('originfees', () => {
-                instance.publishState('order_stage', 'Preparing request');
+                instance.publishState('order_stage', 'Prepping request...');
                 const sdkActionType = order_type.toLowerCase();//Sell or Bid
+                //Andrew 8.12.23
+                //const endDate = new Date(Date.now() + 60 * 60 * 1000 * 24 * 7); //set expirationDate for 7 days
+                let endDate;
+				if (properties.expiration_date !== null) {
+  					endDate = new Date(properties.expiration_date);
+				} else {
+  					endDate = new Date(Date.now() + 60 * 60 * 1000 * 24 * 7);
+				}
+                console.log("expiration date: ", endDate);
+                console.log("properties end date: ", properties.expiration_date);
                 instance.data.sdk.order[sdkActionType]({ itemId }).then((order) => {
                     let submitObj = {
                         amount: nftAmount, // amount of NFTs to put on sale: must be <= maxAmount
                         price: sellPrice, // price of the NFT being sold (0.2 for example if price is 0.2 ETH)
-                        currency // curreny (ETH or specific ERC20 or Tez, Flow etc)
+                        currency ,// currency (ETH or specific ERC20 or Tez, Flow etc)
+                        //Andrew 8.12.23
+                        expirationDate: endDate,
                     }
                     if (sdkActionType == 'sell') {
-                        submitObj.originFees = origin_fees // optional array of origin fees (TODO add link to origin fees explanation)
+                        submitObj.originFees = origin_fees; // optional array of origin fees (TODO add link to origin fees explanation)                           		
                     }
                     order.submit(submitObj).then((res) => {
                         instance.publishState('order_stage', 'Done');

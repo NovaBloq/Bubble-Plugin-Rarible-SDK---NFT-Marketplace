@@ -196,7 +196,15 @@ function(instance, context) {
         instance.data.initiateSDK = () => {
             try {
                 const useENV = instance.data.envSDKtypes[instance.data.env] != "prod" ? "testnet" : instance.data.envSDKtypes[instance.data.env];
-                instance.data.sdk = window.createRaribleSdk(instance.data.connectionObj, useENV);
+                //Andrew 8.12.13
+                const apiKey = context.keys.ApiKey;
+                //console.log("apiKey", apiKey);
+                instance.data.sdk = window.createRaribleSdk(instance.data.connectionObj, useENV, {
+                  apiKey: apiKey
+                }
+				);
+                // Original line 
+                //instance.data.sdk = window.createRaribleSdk(instance.data.connectionObj, useENV);
                 window.logSDKConnected(envFullName);
             } catch (e) {
                 console.warn('SDK failed to initialize. ', e);
@@ -218,11 +226,11 @@ function(instance, context) {
             // action types: sell, bid, minting, accept bid, buy item
             let actionName = actionType && actionType.toLowerCase();
             if (e.code === 4001 || (e.message && e.message.includes('Unexpected identifier "object"'))) {
-                instance.publishState('order_stage', 'Canceled');
+                instance.publishState('order_stage', 'Canceled...');
                 actionName && instance.triggerEvent(`${actionName.toLowerCase()}_canceled_by_user`);
             } else {
                 console.log(e);
-                instance.publishState('order_stage', 'Error');
+                instance.publishState('order_stage', 'Error...');
                 actionName && instance.triggerEvent(`error_while_placing_${actionName}`);
             }
             // Plugin by novabloq.com
